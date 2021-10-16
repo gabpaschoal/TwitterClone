@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TwitterClone.Domain\TwitterClone.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
