@@ -2,7 +2,7 @@
 
 public interface ICacheRepository
 {
-    ValueTask<bool> TryGet<T>(string cacheKey, out T value);
-    ValueTask<T> Set<T>(string cacheKey, T value);
-    ValueTask Remove(string cacheKey);
+    ValueTask<bool> TryGetAsync<T>(string cacheKey, out T value);
+    ValueTask<T> SetAsync<T>(string cacheKey, T value);
+    ValueTask RemoveAsync(string cacheKey);
 }

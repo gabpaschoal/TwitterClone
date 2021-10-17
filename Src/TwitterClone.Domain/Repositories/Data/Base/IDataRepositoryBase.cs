@@ -4,8 +4,8 @@ namespace TwitterClone.Domain.Repositories.Data.Base;
 
 public interface IDataRepositoryBase<TEntity> where TEntity : EntityBase
 {
-    ValueTask<TEntity> GetById(Guid id);
-    ValueTask Add(TEntity data);
-    ValueTask Update(TEntity data);
-    ValueTask Delete(Guid id);
+    ValueTask<TEntity?> GetByIdAsync(Guid id);
+    ValueTask AddAsync(TEntity data);
+    ValueTask UpdateAsync(TEntity data);
+    ValueTask DeleteAsync(Guid id);
 }

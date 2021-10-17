@@ -26,18 +26,18 @@ public class InMemoryCacheRepository : ICacheRepository
         };
     }
 
-    public ValueTask Remove(string cacheKey)
+    public ValueTask RemoveAsync(string cacheKey)
     {
         _memoryCache.Remove(cacheKey);
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask<T> Set<T>(string cacheKey, T value)
+    public ValueTask<T> SetAsync<T>(string cacheKey, T value)
     {
         return ValueTask.FromResult(_memoryCache.Set(cacheKey, value, _cacheOptions));
     }
 
-    public ValueTask<bool> TryGet<T>(string cacheKey, out T value)
+    public ValueTask<bool> TryGetAsync<T>(string cacheKey, out T value)
     {
         _memoryCache.TryGetValue(cacheKey, out value);
 
