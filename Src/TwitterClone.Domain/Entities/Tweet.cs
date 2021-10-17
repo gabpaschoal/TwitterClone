@@ -16,6 +16,7 @@ public class Tweet : EntityBase
         TweetMessage = tweetMessage;
         ETweetType = ETweetType.Tweet;
         TweetLikes = new List<TweetLike>();
+        TweetRetweets = new List<Tweet>();
     }
 
     /// <summary>
@@ -29,6 +30,7 @@ public class Tweet : EntityBase
         TweetReferenceId = tweetReferenceId;
         ETweetType = ETweetType.Retweet;
         TweetLikes = new List<TweetLike>();
+        TweetRetweets = new List<Tweet>();
     }
 
     public Guid UserId { get; }
@@ -41,4 +43,5 @@ public class Tweet : EntityBase
     public ETweetType ETweetType { get; }
 
     public virtual ICollection<TweetLike> TweetLikes { get; }
+    public virtual ICollection<Tweet> TweetRetweets { get; }
 }
