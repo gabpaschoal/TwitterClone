@@ -9,7 +9,7 @@ namespace TwitterClone.Infrastructure.Repositories.Data;
 public class UserBlockRepository : DataRepositoryBase<UserBlock>, IUserBlockRepository
 {
     public UserBlockRepository(
-        AppDbContext context, 
+        AppDbContext context,
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
 }

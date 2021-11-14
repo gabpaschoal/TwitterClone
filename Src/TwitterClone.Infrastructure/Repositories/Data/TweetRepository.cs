@@ -9,7 +9,7 @@ namespace TwitterClone.Infrastructure.Repositories.Data;
 public class TweetRepository : DataRepositoryBase<Tweet>, ITweetRepository
 {
     public TweetRepository(
-        AppDbContext context, 
+        AppDbContext context,
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
 }

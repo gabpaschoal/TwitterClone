@@ -9,7 +9,7 @@ namespace TwitterClone.Infrastructure.Repositories.Data;
 public class UserFollowRepository : DataRepositoryBase<UserFollow>, IUserFollowRepository
 {
     public UserFollowRepository(
-        AppDbContext context, 
+        AppDbContext context,
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
 }

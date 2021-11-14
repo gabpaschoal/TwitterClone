@@ -8,7 +8,7 @@ namespace TwitterClone.Domain.Repositories.Data;
 public class TweetLikeRepository : DataRepositoryBase<TweetLike>, ITweetLikeRepository
 {
     public TweetLikeRepository(
-        AppDbContext context, 
+        AppDbContext context,
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
 }

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using TwitterClone.Domain.Repositories.Data.Base;
-using EasyValidation.Core.Results;
+﻿using EasyValidation.Core.Results;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using TwitterClone.Domain.Repositories.Data.Base;
 
 namespace TwitterClone.Presentation.ActionFilters;
 

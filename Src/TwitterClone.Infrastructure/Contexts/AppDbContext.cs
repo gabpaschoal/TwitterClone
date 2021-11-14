@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TwitterClone.Domain.Entities.Base;
 using TwitterClone.Domain.Utils.Extensions;
+using TwitterClone.Infrastructure.EntitiesMaps;
 
 namespace TwitterClone.Infrastructure.Contexts;
 
@@ -16,15 +17,11 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        typeof(AppDbContext)
-            .Assembly
-            .GetTypes()
-            .Where(t => t.GetInterfaces().Any(gi => gi.IsGenericType && gi.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>)))
-            .Select(t => (dynamic?)Activator.CreateInstance(t))
-            .ToList()
-            .ForEach(configurationInstance => modelBuilder.ApplyConfiguration(configurationInstance));
-
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfiguration(new TweetLikeMap());
+        modelBuilder.ApplyConfiguration(new TweetMap());
+        modelBuilder.ApplyConfiguration(new UserBlockMap());
+        modelBuilder.ApplyConfiguration(new UserFollowMap());
+        modelBuilder.ApplyConfiguration(new UserMap());
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
