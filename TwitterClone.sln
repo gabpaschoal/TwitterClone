@@ -7,19 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{AF3BCCFE-CB2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{82720896-9A05-436B-98D0-1E544F97EE48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Application", "Src\TwitterClone.Application\TwitterClone.Application.csproj", "{57F2D08F-CB4F-4B71-88A3-46FAC57E5ED5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Application", "Src\TwitterClone.Application\TwitterClone.Application.csproj", "{57F2D08F-CB4F-4B71-88A3-46FAC57E5ED5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Domain", "Src\TwitterClone.Domain\TwitterClone.Domain.csproj", "{5E132892-2F98-4DE6-AD0A-6CE7732CC186}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Domain", "Src\TwitterClone.Domain\TwitterClone.Domain.csproj", "{5E132892-2F98-4DE6-AD0A-6CE7732CC186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Presentation", "Src\TwitterClone.Presentation\TwitterClone.Presentation.csproj", "{B30DC4EA-06A6-453F-830B-AB3B0C30528D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Domain.Test", "Test\TwitterClone.Domain.Test\TwitterClone.Domain.Test.csproj", "{DDFB62E7-6151-414B-940C-0711211995FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Domain.Test", "Test\TwitterClone.Domain.Test\TwitterClone.Domain.Test.csproj", "{DDFB62E7-6151-414B-940C-0711211995FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Infrastructure", "Src\TwitterClone.Infrastructure\TwitterClone.Infrastructure.csproj", "{7B6BCDD0-D745-4C47-AF3C-231B173B4D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Infrastructure", "Src\TwitterClone.Infrastructure\TwitterClone.Infrastructure.csproj", "{7B6BCDD0-D745-4C47-AF3C-231B173B4D47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Application.Test", "Test\TwitterClone.Application.Test\TwitterClone.Application.Test.csproj", "{FF117A62-AD3C-4BEE-ACB8-9F774D57341A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Application.Test", "Test\TwitterClone.Application.Test\TwitterClone.Application.Test.csproj", "{FF117A62-AD3C-4BEE-ACB8-9F774D57341A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.IoC", "Src\TwitterClone.IoC\TwitterClone.IoC.csproj", "{546641E3-FAE2-4948-ADD2-AB90ABA19F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.IoC", "Src\TwitterClone.IoC\TwitterClone.IoC.csproj", "{546641E3-FAE2-4948-ADD2-AB90ABA19F46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Presentation", "Src\TwitterClone.Presentation\TwitterClone.Presentation.csproj", "{23B30D34-4B07-41F1-968F-B7905888E18D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{5E132892-2F98-4DE6-AD0A-6CE7732CC186}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E132892-2F98-4DE6-AD0A-6CE7732CC186}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E132892-2F98-4DE6-AD0A-6CE7732CC186}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B30DC4EA-06A6-453F-830B-AB3B0C30528D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B30DC4EA-06A6-453F-830B-AB3B0C30528D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B30DC4EA-06A6-453F-830B-AB3B0C30528D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B30DC4EA-06A6-453F-830B-AB3B0C30528D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DDFB62E7-6151-414B-940C-0711211995FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDFB62E7-6151-414B-940C-0711211995FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFB62E7-6151-414B-940C-0711211995FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +51,10 @@ Global
 		{546641E3-FAE2-4948-ADD2-AB90ABA19F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{546641E3-FAE2-4948-ADD2-AB90ABA19F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{546641E3-FAE2-4948-ADD2-AB90ABA19F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23B30D34-4B07-41F1-968F-B7905888E18D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B30D34-4B07-41F1-968F-B7905888E18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23B30D34-4B07-41F1-968F-B7905888E18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23B30D34-4B07-41F1-968F-B7905888E18D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,11 +62,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{57F2D08F-CB4F-4B71-88A3-46FAC57E5ED5} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
 		{5E132892-2F98-4DE6-AD0A-6CE7732CC186} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
-		{B30DC4EA-06A6-453F-830B-AB3B0C30528D} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
 		{DDFB62E7-6151-414B-940C-0711211995FB} = {82720896-9A05-436B-98D0-1E544F97EE48}
 		{7B6BCDD0-D745-4C47-AF3C-231B173B4D47} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
 		{FF117A62-AD3C-4BEE-ACB8-9F774D57341A} = {82720896-9A05-436B-98D0-1E544F97EE48}
 		{546641E3-FAE2-4948-ADD2-AB90ABA19F46} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
+		{23B30D34-4B07-41F1-968F-B7905888E18D} = {AF3BCCFE-CB2F-4F5B-AD33-6A1CC2980734}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC1F32CA-61C8-4AE8-AC50-F09E832EC173}

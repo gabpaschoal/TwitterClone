@@ -7,9 +7,9 @@ namespace TwitterClone.Infrastructure.Contexts;
 
 public class AppDbContext : DbContext
 {
-    private readonly HttpContextAccessor _httpContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AppDbContext(DbContextOptions options, HttpContextAccessor httpContextAccessor) : base(options)
+    public AppDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
