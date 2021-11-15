@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterClone.Domain\TwitterClone.Domain.csproj" />
+    <ProjectReference Include="..\TwitterClone.Resouces\TwitterClone.Resouces.csproj" />
   </ItemGroup>
 
 </Project>
