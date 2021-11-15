@@ -10,7 +10,10 @@ public class AppDbContext : DbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AppDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
+    public AppDbContext(
+        DbContextOptions options, 
+        IHttpContextAccessor httpContextAccessor) 
+        : base(options)
     {
         _httpContextAccessor = httpContextAccessor;
     }
@@ -41,21 +44,33 @@ public class AppDbContext : DbContext
         {
             var auditBase = (AuditBase)entityEntry.Entity;
 
-            if (entityEntry.State == EntityState.Added)
+            switch (entityEntry.State)
             {
-                auditBase.SetValue(x => x.CreatedAt, DateTime.UtcNow);
-                auditBase.SetValue(x => x.UserCreateId, currentlyUser);
-            }
-            else if (entityEntry.State == EntityState.Deleted)
-            {
-                entityEntry.State = EntityState.Unchanged;
-                auditBase.SetValue(x => x.DeletedAt, DateTime.UtcNow);
-                auditBase.SetValue(x => x.UserDeletedId, currentlyUser);
-            }
-            else
-            {
-                Entry(auditBase).Property(p => p.CreatedAt).IsModified = false;
-                Entry(auditBase).Property(p => p.UserCreateId).IsModified = false;
+                case EntityState.Added:
+                    {
+                        auditBase.SetValue(x => x.CreatedAt, DateTime.UtcNow);
+                        auditBase.SetValue(x => x.UserCreateId, currentlyUser);
+                        break;
+                    }
+
+                case EntityState.Modified:
+                    {
+                        auditBase.SetValue(x => x.UpdatedAt, DateTime.UtcNow);
+                        auditBase.SetValue(x => x.UserLastUpdateId, currentlyUser);
+                        Entry(auditBase).Property(p => p.CreatedAt).IsModified = false;
+                        Entry(auditBase).Property(p => p.UserCreateId).IsModified = false;
+                        break;
+                    }
+
+                case EntityState.Deleted:
+                    {
+                        entityEntry.State = EntityState.Unchanged;
+                        auditBase.SetValue(x => x.DeletedAt, DateTime.UtcNow);
+                        auditBase.SetValue(x => x.UserDeletedId, currentlyUser);
+                        Entry(auditBase).Property(p => p.CreatedAt).IsModified = false;
+                        Entry(auditBase).Property(p => p.UserCreateId).IsModified = false;
+                        break;
+                    }
             }
 
             auditBase.SetValue(x => x.UpdatedAt, DateTime.UtcNow);
