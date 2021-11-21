@@ -1,7 +1,7 @@
 ﻿using EasyValidation.Core;
 using EasyValidation.Core.Extensions;
 using TwitterClone.Application.Commands.User;
-using TwitterClone.Resouces;
+using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Validators.User;
 
@@ -28,5 +28,11 @@ public class UserCreateValidator : Validation<UserCreateCommand>
         ForMember(x => x.PasswordConfirmation)
             .IsRequired()
             .ShouldBeBetweenLenght(5, 70, ValidationMessage.HasMinLenghtMessage, ValidationMessage.HasMaxLenghtMessage);
+
+        var password = GetCommandProperty(x => x.Password);
+        var passwordConfirmation = GetCommandProperty(x => x.PasswordConfirmation);
+
+        if (password is not null && passwordConfirmation is not null && password != passwordConfirmation)
+            AddError("PasswordConfirmation", ValidationMessage.PasswordConfirmationDoesntMatchWithPassword);
     }
 }

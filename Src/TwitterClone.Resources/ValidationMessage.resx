@@ -103,4 +103,7 @@
   <data name="HasMaxLenghtMessage" xml:space="preserve">
     <value>Should be less than {0} lenght</value>
   </data>
+  <data name="PasswordConfirmationDoesntMatchWithPassword" xml:space="preserve">
+    <value>Password confirmation doesn't match with password</value>
+  </data>
 </root>

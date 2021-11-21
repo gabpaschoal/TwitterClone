@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TwitterClone.Resouces {
+namespace TwitterClone.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TwitterClone.Resouces {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwitterClone.Resouces.ValidationMessage", typeof(ValidationMessage).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TwitterClone.Resources.ValidationMessage", typeof(ValidationMessage).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -75,6 +75,15 @@ namespace TwitterClone.Resouces {
         public static string HasMinLenghtMessage {
             get {
                 return ResourceManager.GetString("HasMinLenghtMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password confirmation doesn&apos;t match with password.
+        /// </summary>
+        public static string PasswordConfirmationDoesntMatchWithPassword {
+            get {
+                return ResourceManager.GetString("PasswordConfirmationDoesntMatchWithPassword", resourceCulture);
             }
         }
     }

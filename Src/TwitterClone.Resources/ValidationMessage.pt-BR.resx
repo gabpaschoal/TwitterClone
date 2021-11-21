@@ -123,4 +123,7 @@
   <data name="HasMinLenghtMessage" xml:space="preserve">
     <value>Deve ter mais de {0} caracteres</value>
   </data>
+  <data name="PasswordConfirmationDoesntMatchWithPassword" xml:space="preserve">
+    <value>A confirmação de senha não é igual à senha</value>
+  </data>
 </root>

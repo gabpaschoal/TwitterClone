@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.IoC", "Src\Twi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Presentation", "Src\TwitterClone.Presentation\TwitterClone.Presentation.csproj", "{23B30D34-4B07-41F1-968F-B7905888E18D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterClone.Resouces", "Src\TwitterClone.Resouces\TwitterClone.Resouces.csproj", "{6E86EECD-4D69-4E12-922C-7352420D9F39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterClone.Resources", "Src\TwitterClone.Resources\TwitterClone.Resources.csproj", "{6E86EECD-4D69-4E12-922C-7352420D9F39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
