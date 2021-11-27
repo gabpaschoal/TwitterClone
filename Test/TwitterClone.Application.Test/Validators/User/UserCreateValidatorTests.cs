@@ -139,4 +139,94 @@ public class UserCreateValidatorTests
         sutMaxLenghtReq.ResultData.IsValid.Should().BeTrue();
         sutMaxLenghtReq.ResultData.FieldErrors.Should().BeEmpty();
     }
+
+    [Fact(DisplayName = "Should add error when Password is null or empty")]
+    public void Should_add_error_when_Password_is_null_or_empty()
+    {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var sutNull = MakeSut(password: null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        sutNull.ResultData.IsValid.Should().BeFalse();
+        sutNull.ResultData.FieldErrors.Single().Key.Should().Be("Password");
+
+        var sutEmpty = MakeSut(password: "");
+        sutEmpty.ResultData.IsValid.Should().BeFalse();
+        sutEmpty.ResultData.FieldErrors.Should().HaveCount(2);
+        sutEmpty.ResultData.FieldErrors.Single(x => x.Key == "PasswordConfirmation");
+        sutEmpty.ResultData.FieldErrors.Single(x => x.Key == "Password");
+    }
+
+    [Fact(DisplayName = "Should add error when Password has less or more than the limit")]
+    public void Should_add_error_when_Password_has_less_or_more_than_the_limit()
+    {
+        var sutMinLenghtReq = MakeSut(password: "".PadLeft(4, 'X'));
+        sutMinLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMinLenghtReq.ResultData.FieldErrors.Should().HaveCount(2);
+        sutMinLenghtReq.ResultData.FieldErrors.Single(x => x.Key == "PasswordConfirmation");
+        sutMinLenghtReq.ResultData.FieldErrors.Single(x => x.Key == "Password");
+
+        var sutMaxLenghtReq = MakeSut(password: "".PadLeft(71, 'X'));
+        sutMaxLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMaxLenghtReq.ResultData.FieldErrors.Should().HaveCount(2);
+        sutMaxLenghtReq.ResultData.FieldErrors.Single(x => x.Key == "PasswordConfirmation");
+        sutMaxLenghtReq.ResultData.FieldErrors.Single(x => x.Key == "Password");
+    }
+
+    [Fact(DisplayName = "Should add no error when Password is in the limit")]
+    public void Should_add_no_error_when_Password_is_in_the_limit()
+    {
+        var sutMinLenghtReq = MakeSut(password: "".PadLeft(5, 'X'));
+        sutMinLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMinLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+
+        var sutMaxLenghtReq = MakeSut(password: "".PadLeft(70, 'X'));
+        sutMaxLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMaxLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+    }
+
+    [Fact(DisplayName = "Should add error when PasswordConfirmation is null or empty")]
+    public void Should_add_error_when_PasswordConfirmation_is_null_or_empty()
+    {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var sutNull = MakeSut(passwordConfirmation: null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        sutNull.ResultData.IsValid.Should().BeFalse();
+        sutNull.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+
+        var sutEmpty = MakeSut(passwordConfirmation: "");
+        sutEmpty.ResultData.IsValid.Should().BeFalse();
+        sutEmpty.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+    }
+
+    [Fact(DisplayName = "Should add error when PasswordConfirmation has less or more than the limit")]
+    public void Should_add_error_when_PasswordConfirmation_has_less_or_more_than_the_limit()
+    {
+        var sutMinLenghtReq = MakeSut(passwordConfirmation: "".PadLeft(4, 'X'));
+        sutMinLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMinLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+
+        var sutMaxLenghtReq = MakeSut(passwordConfirmation: "".PadLeft(71, 'X'));
+        sutMaxLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMaxLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+    }
+
+    [Fact(DisplayName = "Should add no error when PasswordConfirmation is in the limit")]
+    public void Should_add_no_error_when_PasswordConfirmation_is_in_the_limit()
+    {
+        var sutMinLenghtReq = MakeSut(passwordConfirmation: "".PadLeft(5, 'X'), password: "".PadLeft(5, 'X'));
+        sutMinLenghtReq.ResultData.IsValid.Should().BeTrue();
+        sutMinLenghtReq.ResultData.FieldErrors.Should().BeEmpty();
+
+        var sutMaxLenghtReq = MakeSut(passwordConfirmation: "".PadLeft(70, 'X'), password: "".PadLeft(70, 'X'));
+        sutMaxLenghtReq.ResultData.IsValid.Should().BeTrue();
+        sutMaxLenghtReq.ResultData.FieldErrors.Should().BeEmpty();
+    }
+
+    [Fact(DisplayName = "Should add an error when Password is not equals to PasswordConfirmation")]
+    public void Should_add_an_error_when_Password_is_not_equals_to_PasswordConfirmation()
+    {
+        var sut = MakeSut(passwordConfirmation: "passwordConfirmation", password: "password");
+        sut.ResultData.IsValid.Should().BeFalse();
+        sut.ResultData.FieldErrors.Single().Key.Should().Be("PasswordConfirmation");
+    }
 }
