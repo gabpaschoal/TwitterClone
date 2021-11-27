@@ -65,4 +65,16 @@ public class UserCreateValidatorTests
         sutEmpty.ResultData.IsValid.Should().BeFalse();
         sutEmpty.ResultData.FieldErrors.Single().Key.Should().Be("NickName");
     }
+
+    [Fact(DisplayName = "Should add error when NickName has less or more the limit")]
+    public void Should_add_error_when_NickName_has_less_or_more_the_limit()
+    {
+        var sutMinLenghtReq = MakeSut(nickName: "".PadLeft(4, 'X'));
+        sutMinLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMinLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("NickName");
+
+        var sutMaxLenghtReq = MakeSut(nickName: "".PadLeft(31, 'X'));
+        sutMaxLenghtReq.ResultData.IsValid.Should().BeFalse();
+        sutMaxLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("NickName");
+    }
 }
