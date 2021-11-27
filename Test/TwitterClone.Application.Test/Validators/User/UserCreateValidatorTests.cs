@@ -51,4 +51,18 @@ public class UserCreateValidatorTests
         sutMaxLenghtReq.ResultData.IsValid.Should().BeFalse();
         sutMaxLenghtReq.ResultData.FieldErrors.Single().Key.Should().Be("Name");
     }
+
+    [Fact(DisplayName = "Should add error when NickName is null or empty")]
+    public void Should_add_error_when_NickName_is_null_or_empty()
+    {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+        var sutNull = MakeSut(nickName: null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+        sutNull.ResultData.IsValid.Should().BeFalse();
+        sutNull.ResultData.FieldErrors.Single().Key.Should().Be("NickName");
+
+        var sutEmpty = MakeSut(nickName: "");
+        sutEmpty.ResultData.IsValid.Should().BeFalse();
+        sutEmpty.ResultData.FieldErrors.Single().Key.Should().Be("NickName");
+    }
 }
