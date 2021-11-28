@@ -15,18 +15,23 @@ public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData
         _userRepository = userRepository;
     }
 
-    public override Task<CustomResultData<Guid>> HandleExecution(UserCreateCommand request, CancellationToken cancellationToken)
+    public override async Task<CustomResultData<Guid>> HandleExecution(UserCreateCommand request, CancellationToken cancellationToken)
     {
-        if (_userRepository.ExistsNickName(nickName: request.NickName))
+        if (_userRepository.ExistsUserWithThisNickName(nickName: request.NickName))
             AddError(nameof(request.NickName), ValidationMessage.AlreadyExistsAnUserWithThisNickName);
 
+        if (_userRepository.ExistsUserWithThisEmail(email: request.Email))
+            AddError(nameof(request.Email), ValidationMessage.AlreadyExistsAnUserWithThisEmail);
+
         if (IsInvalid)
-            return InvalidResponse();
+            return InvalidResponseAsync();
 
         Domain.Entities.User user = new(request.Name, request.NickName, request.Email, request.Password);
 
+        await _userRepository.AddAsync(user); 
+
         CustomResultData<Guid> validResult = new(user.Id);
 
-        return ValidResponse(validResult);
+        return ValidResponseAsync(validResult);
     }
 }

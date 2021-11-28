@@ -109,4 +109,7 @@
   <data name="AlreadyExistsAnUserWithThisNickName" xml:space="preserve">
     <value>Already exists an user with this nick name</value>
   </data>
+  <data name="AlreadyExistsAnUserWithThisEmail" xml:space="preserve">
+    <value>Already exists an user with this email</value>
+  </data>
 </root>

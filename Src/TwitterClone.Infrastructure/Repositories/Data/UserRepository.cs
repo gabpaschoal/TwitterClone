@@ -12,7 +12,13 @@ public class UserRepository : DataRepositoryBase<User>, IUserRepository
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
 
-    public bool ExistsNickName(string nickName)
+    public bool ExistsUserWithThisEmail(string email)
+    {
+        var result = Queryable.Any(x => x.Email == email);
+        return result;
+    }
+
+    public bool ExistsUserWithThisNickName(string nickName)
     {
         var result = Queryable.Any(x => x.NickName == nickName);
         return result;

@@ -5,5 +5,6 @@ namespace TwitterClone.Domain.Repositories.Data;
 
 public interface IUserRepository : IDataRepositoryBase<User>
 {
-    bool ExistsNickName(string nickName);
+    bool ExistsUserWithThisNickName(string nickName);
+    bool ExistsUserWithThisEmail(string email);
 }

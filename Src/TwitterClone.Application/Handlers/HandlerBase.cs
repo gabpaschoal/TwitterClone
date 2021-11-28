@@ -41,5 +41,9 @@ public abstract class HandlerBase<TRequest, TResponse> : IRequestHandler<TReques
 
     public Task<TResponse> InvalidResponse() => Task.FromResult(_response);
     public Task<TResponse> ValidResponse() => Task.FromResult(new TResponse());
-    public Task<TResponse> ValidResponse(TResponse response) => Task.FromResult(response);
+    public Task<TResponse> ValidResponse(TResponse response) => Task.FromResult(response);    
+    
+    public TResponse InvalidResponseAsync() => _response;
+    public TResponse ValidResponseAsync() => new();
+    public TResponse ValidResponseAsync(TResponse response) => response;
 }
