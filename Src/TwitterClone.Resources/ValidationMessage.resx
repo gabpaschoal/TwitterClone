@@ -112,4 +112,7 @@
   <data name="AlreadyExistsAnUserWithThisEmail" xml:space="preserve">
     <value>Already exists an user with this email</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
 </root>

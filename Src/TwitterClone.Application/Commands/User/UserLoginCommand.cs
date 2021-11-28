@@ -1,5 +1,5 @@
-﻿namespace TwitterClone.Application.Commands.User;
+﻿using TwitterClone.Application.Responses.User;
 
-public class UserLoginCommand
-{
-}
+namespace TwitterClone.Application.Commands.User;
+
+public record UserLoginCommand(string Email, string Password) : IRequestExecution<UserLoginResponse>;

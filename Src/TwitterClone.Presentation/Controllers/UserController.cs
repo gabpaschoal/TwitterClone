@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TwitterClone.Application.Commands.User;
 
@@ -15,9 +16,20 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost, Route("")]
+    [Authorize, HttpPost, Route("")]
     public async Task<IActionResult> Post(
         [FromBody] UserCreateCommand command)
+    {
+        var response = await _mediator.Send(command);
+
+        if (response.IsValid)
+            return Ok(response);
+        return BadRequest(response);
+    }
+
+    [AllowAnonymous, HttpPost, Route("Login")]
+    public async Task<IActionResult> Login(
+        [FromBody] UserLoginCommand command)
     {
         var response = await _mediator.Send(command);
 

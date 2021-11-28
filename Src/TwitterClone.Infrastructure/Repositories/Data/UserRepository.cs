@@ -23,4 +23,10 @@ public class UserRepository : DataRepositoryBase<User>, IUserRepository
         var result = Queryable.Any(x => x.NickName == nickName);
         return result;
     }
+
+    public User GetUserByEmailAndPassword(string email, string password)
+    {
+        var result = Queryable.FirstOrDefault(x => x.Email.Equals(email) && x.Password.Equals(password));
+        return result;
+    }
 }

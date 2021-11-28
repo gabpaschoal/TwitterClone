@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using TwitterClone.Application.Services;
-using TwitterClone.Domain.Services;
+using TwitterClone.Domain.Services.Models;
 using Xunit;
 
 namespace TwitterClone.Application.Test.Services;

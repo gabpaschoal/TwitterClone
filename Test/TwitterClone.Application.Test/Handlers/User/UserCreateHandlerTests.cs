@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
 using System.Linq;
-using System.Threading.Tasks;
 using TwitterClone.Application.Commands.User;
 using TwitterClone.Application.Handlers;
 using TwitterClone.Application.Handlers.User;

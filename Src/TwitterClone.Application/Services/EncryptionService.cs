@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using TwitterClone.Domain.Services;
+using TwitterClone.Domain.Services.Models;
 
 namespace TwitterClone.Application.Services;
 
