@@ -28,7 +28,7 @@ public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData
 
         Domain.Entities.User user = new(request.Name, request.NickName, request.Email, request.Password);
 
-        await _userRepository.AddAsync(user); 
+        await _userRepository.AddAsync(user);
 
         CustomResultData<Guid> validResult = new(user.Id);
 
