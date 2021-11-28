@@ -1,6 +1,7 @@
 ﻿using EasyValidation.DependencyInjection;
 using FluentAssertions;
 using Moq;
+using System.Linq;
 using TwitterClone.Application.Handlers;
 using Xunit;
 
@@ -51,7 +52,7 @@ public partial class HandlerBaseTests
         validatorLocatorMock.Setup(x => x.ValidateCommand(It.IsAny<StubCommand>())).Returns(invalidDataResult);
 
         var handlerBusMock = new Mock<IHandlerBus>();
-        handlerBusMock.Setup(x=>x.Validator).Returns(validatorLocatorMock.Object);
+        handlerBusMock.Setup(x => x.Validator).Returns(validatorLocatorMock.Object);
 
         var sut = MakeSut(handlerBusMock.Object);
 
@@ -79,5 +80,25 @@ public partial class HandlerBaseTests
 
         commandResult.IsValid.Should().BeTrue();
         sut.HandleExecutionCalls.Should().Be(1);
+    }
+
+    [Fact(DisplayName = "AddError should add errors to the intern Response")]
+    public void AddError_should_add_errors_to_the_intern_Response()
+    {
+        var sut = MakeSut();
+
+        sut.IsValid.Should().BeTrue();
+        sut.IsInvalid.Should().BeFalse();
+
+        string key = "_key";
+        sut.AddError(key, "this key is invalid");
+
+        sut.IsValid.Should().BeFalse();
+        sut.IsInvalid.Should().BeTrue();
+
+        var invalidCommandResult = sut.InvalidResponseAsync();
+        invalidCommandResult.IsValid.Should().BeFalse();
+
+        invalidCommandResult.FieldErrors.Single().Key.Should().Be(key);
     }
 }
