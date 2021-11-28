@@ -60,4 +60,24 @@ public partial class HandlerBaseTests
         commandResult.IsValid.Should().BeFalse();
         sut.HandleExecutionCalls.Should().Be(0);
     }
+
+    [Fact(DisplayName = "Handle should execute HandleExecution when command is Valid")]
+    public void Handle_should_execute_HandleExecution_when_command_is_Valid()
+    {
+        CustomResultData invalidDataResult = new();
+        invalidDataResult.IsValid.Should().BeTrue();
+
+        var validatorLocatorMock = new Mock<IValidatorLocator>();
+        validatorLocatorMock.Setup(x => x.ValidateCommand(It.IsAny<StubCommand>())).Returns(invalidDataResult);
+
+        var handlerBusMock = new Mock<IHandlerBus>();
+        handlerBusMock.Setup(x => x.Validator).Returns(validatorLocatorMock.Object);
+
+        var sut = MakeSut(handlerBusMock.Object);
+
+        CustomResultData commandResult = sut.Handle(It.IsAny<StubCommand>(), System.Threading.CancellationToken.None).Result;
+
+        commandResult.IsValid.Should().BeTrue();
+        sut.HandleExecutionCalls.Should().Be(1);
+    }
 }
