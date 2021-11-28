@@ -1,10 +1,12 @@
 ﻿using FluentAssertions;
 using Moq;
 using System.Linq;
+using System.Threading.Tasks;
 using TwitterClone.Application.Commands.User;
 using TwitterClone.Application.Handlers;
 using TwitterClone.Application.Handlers.User;
 using TwitterClone.Domain.Repositories.Data;
+using TwitterClone.Domain.Services;
 using Xunit;
 
 namespace TwitterClone.Application.Test.Handlers.User;
@@ -13,12 +15,14 @@ public class UserCreateHandlerTests
 {
     private static UserCreateHandler MakeSut(
         IHandlerBus? handlerBus = null,
-        IUserRepository? userRepository = null)
+        IUserRepository? userRepository = null,
+        IEncryptionService? encryptionService = null)
     {
         handlerBus ??= new Mock<IHandlerBus>().Object;
         userRepository ??= new Mock<IUserRepository>().Object;
+        encryptionService ??= new Mock<IEncryptionService>().Object;
 
-        return new UserCreateHandler(handlerBus, userRepository);
+        return new UserCreateHandler(handlerBus, userRepository, encryptionService);
     }
 
     private static UserCreateCommand MakeValidCommand()
@@ -60,14 +64,22 @@ public class UserCreateHandlerTests
     public void Should_call_AddAsync_one_time_when_validations_result_valid()
     {
         var command = MakeValidCommand();
+        string encryptedStringMocked = "mockedString";
 
         Mock<IUserRepository> userRepositoryMock = new();
+        Mock<IEncryptionService> encryptionServiceMock = new();
+        encryptionServiceMock.Setup(x => x.Encrypt(It.IsAny<string>())).Returns(encryptedStringMocked);
 
-        var sut = MakeSut(userRepository: userRepositoryMock.Object);
-
+        var sut = MakeSut(userRepository: userRepositoryMock.Object, encryptionService: encryptionServiceMock.Object);
         var resultData = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
 
         resultData.IsValid.Should().BeTrue();
+        encryptionServiceMock.Verify(x => x.Encrypt(It.IsAny<string>()), Times.Once);
         userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Domain.Entities.User>()), Times.Once);
+        userRepositoryMock.Verify(x => x.AddAsync(It.Is<Domain.Entities.User>(x =>
+                                                        x.Name.Equals(command.Name)
+                                                            && x.NickName.Equals(command.NickName)
+                                                            && x.Email.Equals(command.Email)
+                                                            && x.Password.Equals(encryptedStringMocked))));
     }
 }
