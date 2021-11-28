@@ -106,4 +106,7 @@
   <data name="PasswordConfirmationDoesntMatchWithPassword" xml:space="preserve">
     <value>Password confirmation doesn't match with password</value>
   </data>
+  <data name="AlreadyExistsAnUserWithThisNickName" xml:space="preserve">
+    <value>Already exists an user with this nick name</value>
+  </data>
 </root>

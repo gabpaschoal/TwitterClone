@@ -11,7 +11,7 @@ public abstract class DataRepositoryBase<TEntity>
 {
     private readonly AppDbContext _context;
     private readonly ICacheRepository _cacheRepository;
-    private readonly DbSet<TEntity> _dbset;
+    public readonly DbSet<TEntity> Queryable;
 
     protected DataRepositoryBase(
         AppDbContext context,
@@ -19,7 +19,7 @@ public abstract class DataRepositoryBase<TEntity>
     {
         _context = context;
         _cacheRepository = cacheRepository;
-        _dbset = _context.Set<TEntity>();
+        Queryable = _context.Set<TEntity>();
     }
 
     public async ValueTask AddAsync(TEntity data)
@@ -42,7 +42,7 @@ public abstract class DataRepositoryBase<TEntity>
         if (result is not null)
             return result;
 
-        result = await _dbset.FirstOrDefaultAsync(x => x.Id == id);
+        result = await Queryable.FirstOrDefaultAsync(x => x.Id == id);
 
         await _cacheRepository.SetAsync(id.ToString(), result);
 

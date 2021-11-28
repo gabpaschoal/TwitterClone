@@ -61,6 +61,15 @@ namespace TwitterClone.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already exists an user with this nick name.
+        /// </summary>
+        public static string AlreadyExistsAnUserWithThisNickName {
+            get {
+                return ResourceManager.GetString("AlreadyExistsAnUserWithThisNickName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Should be less than {0} lenght.
         /// </summary>
         public static string HasMaxLenghtMessage {

@@ -126,4 +126,7 @@
   <data name="PasswordConfirmationDoesntMatchWithPassword" xml:space="preserve">
     <value>A confirmação de senha não é igual à senha</value>
   </data>
+  <data name="AlreadyExistsAnUserWithThisNickName" xml:space="preserve">
+    <value>Já existe um usuário com este apelido</value>
+  </data>
 </root>

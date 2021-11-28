@@ -11,4 +11,10 @@ public class UserRepository : DataRepositoryBase<User>, IUserRepository
         AppDbContext context,
         ICacheRepository cacheRepository) : base(context, cacheRepository)
     { }
+
+    public bool ExistsNickName(string nickName)
+    {
+        var result = Queryable.Any(x => x.NickName == nickName);
+        return result;
+    }
 }
