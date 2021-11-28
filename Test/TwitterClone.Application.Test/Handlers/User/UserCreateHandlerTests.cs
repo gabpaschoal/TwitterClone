@@ -36,8 +36,6 @@ public class UserCreateHandlerTests
 
         var resultData = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
 
-        sut.IsValid.Should().BeFalse();
-
         resultData.IsValid.Should().BeFalse();
         resultData.FieldErrors.Single().Key.Should().Be(nameof(command.NickName));
     }
@@ -54,9 +52,22 @@ public class UserCreateHandlerTests
 
         var resultData = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
 
-        sut.IsValid.Should().BeFalse();
-
         resultData.IsValid.Should().BeFalse();
         resultData.FieldErrors.Single().Key.Should().Be(nameof(command.Email));
+    }
+
+    [Fact(DisplayName = "Should call AddAsync one time when validations result valid")]
+    public void Should_call_AddAsync_one_time_when_validations_result_valid()
+    {
+        var command = MakeValidCommand();
+
+        Mock<IUserRepository> userRepositoryMock = new();
+
+        var sut = MakeSut(userRepository: userRepositoryMock.Object);
+
+        var resultData = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
+
+        resultData.IsValid.Should().BeTrue();
+        userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Domain.Entities.User>()), Times.Once);
     }
 }
