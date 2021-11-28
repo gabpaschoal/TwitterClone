@@ -41,4 +41,22 @@ public class UserCreateHandlerTests
         resultData.IsValid.Should().BeFalse();
         resultData.FieldErrors.Single().Key.Should().Be(nameof(command.NickName));
     }
+
+    [Fact(DisplayName = "Should be invalid when Email is already in use")]
+    public void Should_be_invalid_when_Email_is_already_in_use()
+    {
+        var command = MakeValidCommand();
+
+        Mock<IUserRepository> userRepositoryMock = new();
+        userRepositoryMock.Setup(x => x.ExistsUserWithThisEmail(command.Email)).Returns(true);
+
+        var sut = MakeSut(userRepository: userRepositoryMock.Object);
+
+        var resultData = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
+
+        sut.IsValid.Should().BeFalse();
+
+        resultData.IsValid.Should().BeFalse();
+        resultData.FieldErrors.Single().Key.Should().Be(nameof(command.Email));
+    }
 }
