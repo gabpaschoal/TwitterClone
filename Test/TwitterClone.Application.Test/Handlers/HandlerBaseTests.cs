@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using EasyValidation.DependencyInjection;
+using FluentAssertions;
 using Moq;
 using TwitterClone.Application.Handlers;
 using Xunit;
@@ -35,6 +36,28 @@ public partial class HandlerBaseTests
         sut.InvalidResponseAsync().IsValid.Should().BeFalse();
         sut.ValidResponse().Result.IsValid.Should().BeTrue();
         sut.InvalidResponse().Result.IsValid.Should().BeFalse();
+        sut.HandleExecutionCalls.Should().Be(0);
+    }
+
+    [Fact(DisplayName = "Handle should not execute HandleExecution when command is Invalid")]
+    public void Handle_should_not_execute_HandleExecution_when_command_is_Invalid()
+    {
+        CustomResultData invalidDataResult = new();
+        invalidDataResult.IsValid.Should().BeTrue();
+        invalidDataResult.AddFieldError("_key", "this is a message");
+        invalidDataResult.IsValid.Should().BeFalse();
+
+        var validatorLocatorMock = new Mock<IValidatorLocator>();
+        validatorLocatorMock.Setup(x => x.ValidateCommand(It.IsAny<StubCommand>())).Returns(invalidDataResult);
+
+        var handlerBusMock = new Mock<IHandlerBus>();
+        handlerBusMock.Setup(x=>x.Validator).Returns(validatorLocatorMock.Object);
+
+        var sut = MakeSut(handlerBusMock.Object);
+
+        CustomResultData commandResult = sut.Handle(It.IsAny<StubCommand>(), System.Threading.CancellationToken.None).Result;
+
+        commandResult.IsValid.Should().BeFalse();
         sut.HandleExecutionCalls.Should().Be(0);
     }
 }

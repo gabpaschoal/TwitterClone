@@ -27,6 +27,7 @@ public abstract class HandlerBase<TRequest, TResponse> : IRequestHandler<TReques
             var fieldErrorsDic = resultDataValidated.FieldErrors.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             var assignFieldErrors = resultDataValidated.AssignFieldErrors.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             result.IncoporateErrors(fieldErrorsDic, assignFieldErrors);
+            return Task.FromResult(result);
         }
 
         return HandleExecution(request, cancellationToken);
