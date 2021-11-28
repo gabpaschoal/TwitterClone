@@ -22,6 +22,7 @@ public class UnitOfWork : IUnitOfWork
 
     public void CommitTransaction()
     {
+        _ = _context.SaveChangesAsync().Result;
         _transaction.Commit();
     }
 

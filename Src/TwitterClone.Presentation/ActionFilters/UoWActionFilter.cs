@@ -25,8 +25,8 @@ public class UoWActionFilter : IActionFilter
             return;
 
         if (newResult.Value is IResultData resultData && resultData is not null && resultData.IsValid)
-            _unitOfWork.RollBackTransaction();
-        else
             _unitOfWork.CommitTransaction();
+        else
+            _unitOfWork.RollBackTransaction();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
 using TwitterClone.Domain.Repositories.Cache;
 
 namespace TwitterClone.Infrastructure.Repositories.Cache;
@@ -11,18 +10,15 @@ public class InMemoryCacheRepository : ICacheRepository
 
     public InMemoryCacheRepository(
         IMemoryCache memoryCache,
-        IOptions<CacheConfiguration> cacheConfig)
+        CacheConfiguration cacheConfig)
     {
         _memoryCache = memoryCache;
 
-        if (cacheConfig.Value is null)
-            return;
-
         _cacheOptions = new MemoryCacheEntryOptions
         {
-            AbsoluteExpiration = DateTime.Now.AddHours(cacheConfig.Value.AbsoluteExpirationInHours),
+            AbsoluteExpiration = DateTime.Now.AddHours(cacheConfig.AbsoluteExpirationInHours),
             Priority = CacheItemPriority.High,
-            SlidingExpiration = TimeSpan.FromMinutes(cacheConfig.Value.SlidingExpirationInMinutes)
+            SlidingExpiration = TimeSpan.FromMinutes(cacheConfig.SlidingExpirationInMinutes)
         };
     }
 

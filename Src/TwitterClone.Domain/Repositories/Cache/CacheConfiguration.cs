@@ -1,7 +1,3 @@
 ﻿namespace TwitterClone.Domain.Repositories.Cache;
 
-public class CacheConfiguration
-{
-    public int AbsoluteExpirationInHours { get; set; }
-    public int SlidingExpirationInMinutes { get; set; }
-}
+public record CacheConfiguration(int AbsoluteExpirationInHours, int SlidingExpirationInMinutes);
