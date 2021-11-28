@@ -1,5 +1,6 @@
 ﻿using TwitterClone.Application.Commands.User;
 using TwitterClone.Domain.Repositories.Data;
+using TwitterClone.Domain.Services;
 using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Handlers.User;
@@ -7,12 +8,15 @@ namespace TwitterClone.Application.Handlers.User;
 public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData<Guid>>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IEncryptionService _encryptionService;
 
     public UserCreateHandler(
         IHandlerBus handlerBus,
-        IUserRepository userRepository) : base(handlerBus)
+        IUserRepository userRepository,
+        IEncryptionService encryptionService) : base(handlerBus)
     {
         _userRepository = userRepository;
+        _encryptionService = encryptionService;
     }
 
     public override async Task<CustomResultData<Guid>> HandleExecution(UserCreateCommand request, CancellationToken cancellationToken)
@@ -26,7 +30,8 @@ public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData
         if (IsInvalid)
             return InvalidResponseAsync();
 
-        Domain.Entities.User user = new(request.Name, request.NickName, request.Email, request.Password);
+        var encryptedPassword = _encryptionService.Encrypt(request.Password);
+        Domain.Entities.User user = new(request.Name, request.NickName, request.Email, encryptedPassword);
 
         await _userRepository.AddAsync(user);
 
