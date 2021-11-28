@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TwitterClone.Application.Handlers;
 using TwitterClone.Infrastructure.Contexts;
 
 namespace TwitterClone.IoC;
@@ -18,5 +19,7 @@ public static class ConfigurationIoC
         });
 
         IoCRepositories.Configure(services);
+
+        services.AddScoped<IHandlerBus, HandlerBus>();
     }
 }
