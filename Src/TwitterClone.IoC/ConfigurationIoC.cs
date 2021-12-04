@@ -1,5 +1,6 @@
 ﻿using EasyValidation.DependencyInjection;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,32 +38,34 @@ public static class ConfigurationIoC
 
         /* Encrypt Service */
         services.AddScoped<IEncryptionService, EncryptionService>();
+        services.AddScoped<ITokenService, TokenService>();
+
         /* Encrypt Service Model */
-        var encryptionSection = configuration.GetSection("Encryption");
-        var encryptionSectionKey = encryptionSection["Key"];
-        services.AddScoped<EncryptionModel>(x => new(encryptionSectionKey));
+        services.Configure<EncryptionModel>(configuration.GetSection("Encryption"));
 
         /* JWT Authentication */
-        var secretTokenSection = configuration.GetSection("SecretToken");
-        var secretTokenKey = secretTokenSection["Key"];
-        var secretTokenHoursToExpire = int.TryParse(secretTokenSection["HoursToExpire"], out var HoursToExpire) ? HoursToExpire : 1;
-        var secretTokenSectionKeyBytes = Encoding.ASCII.GetBytes(secretTokenKey);
-        services.AddAuthentication(x =>
-        {
-            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(x =>
+        services.Configure<JWTEncriptionModel>(configuration.GetSection("SecretToken"));
+        string keySecretToken = configuration.GetSection("SecretToken")["Key"];
+        services.AddAuthentication(x => JWTSchemes(x))
+                .AddJwtBearer(x => JWTSetting(x, keySecretToken));
+
+        static void JWTSetting(JwtBearerOptions x, string keySecretToken)
         {
             x.RequireHttpsMetadata = false;
             x.SaveToken = true;
             x.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(secretTokenSectionKeyBytes),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(keySecretToken)),
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
-        });
-        services.AddScoped<JWTEncriptionModel>(x => new(secretTokenKey, secretTokenHoursToExpire));
+        }
+
+        static void JWTSchemes(AuthenticationOptions x)
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }
     }
 }

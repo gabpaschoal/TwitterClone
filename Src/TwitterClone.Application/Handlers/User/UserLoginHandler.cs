@@ -1,13 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using TwitterClone.Application.Commands.User;
+﻿using TwitterClone.Application.Commands.User;
 using TwitterClone.Application.Responses.User;
-using TwitterClone.Domain.Constants;
 using TwitterClone.Domain.Repositories.Data;
 using TwitterClone.Domain.Services;
-using TwitterClone.Domain.Services.Models;
 using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Handlers.User;
@@ -16,16 +10,17 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
 {
     private readonly IUserRepository _userRepository;
     private readonly IEncryptionService _encryptionService;
-    private readonly JWTEncriptionModel _jwtEncriptionModel;
+    private readonly ITokenService _tokenService;
+
     public UserLoginHandler(
         IHandlerBus handlerBus,
         IUserRepository userRepository,
         IEncryptionService encryptionService,
-        JWTEncriptionModel jwtEncriptionModel) : base(handlerBus)
+        ITokenService tokenService) : base(handlerBus)
     {
         _userRepository = userRepository;
         _encryptionService = encryptionService;
-        _jwtEncriptionModel = jwtEncriptionModel;
+        _tokenService = tokenService;
     }
 
     public override Task<CustomResultData<UserLoginResponse>> HandleExecution(UserLoginCommand request, CancellationToken cancellationToken)
@@ -40,24 +35,7 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
         if (IsInvalid)
             return InvalidResponse();
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_jwtEncriptionModel.Key);
-        var expirationDate = DateTime.UtcNow.AddHours(_jwtEncriptionModel.HoursToExpire);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimsConstants.UserId, user.Id.ToString())
-        };
-
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(claims),
-            Expires = expirationDate,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-        };
-
-        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var tokenResponse = _tokenService.TokenGenerator(user);
 
         UserLoginResponse loginResponse = new()
         {
@@ -65,12 +43,13 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
             Name = user.Name.Trim(),
             NickName = user.NickName.Trim(),
             CreatedAt = DateTime.Now,
-            Token = tokenHandler.WriteToken(token),
-            ExpireAt = expirationDate
+            Token = tokenResponse.Token,
+            ExpireAt = tokenResponse.ExpirationDate
         };
 
         CustomResultData<UserLoginResponse> response = new(loginResponse);
 
         return ValidResponse(response);
     }
+
 }

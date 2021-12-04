@@ -9,7 +9,7 @@ public partial class SeedData : Migration
 {
     private static (User, Guid) MakeUser()
     {
-        User user = new("Admin", "Admin", "admin@twitterclone.com", "password");
+        User user = new("Admin", "Admin", "admin@twitterclone.com", "nhkfOTllc50xMQOu/zA4RLFSgGgaOr9TgYmEWGZynO0=");
 
         return (user, Guid.Parse("41ec910b-e61a-4471-8d78-ded12db5d124"));
     }

@@ -1,3 +1,7 @@
 ﻿namespace TwitterClone.Domain.Services.Models;
 
-public record JWTEncriptionModel(string Key, int HoursToExpire);
+public class JWTEncriptionModel
+{
+    public string Key { get; set; }
+    public int HoursToExpire { get; set; }
+}

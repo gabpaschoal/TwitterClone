@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.Options;
 using TwitterClone.Application.Services;
 using TwitterClone.Domain.Services.Models;
 using Xunit;
@@ -9,8 +10,9 @@ public class EncryptionServiceTests
 {
     private static EncryptionService MakeSut(string key = "This is a valid key to encypt data")
     {
-        EncryptionModel model = new(key.Replace(" ", ""));
-        return new(model);
+        EncryptionModel model = new() { Key = key.Replace(" ", "") };
+        var modelOptions = Options.Create(model);
+        return new(modelOptions);
     }
 
     [Fact(DisplayName = "Should encrypt and descrypt to the same data")]

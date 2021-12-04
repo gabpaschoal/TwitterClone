@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
 using System.Text;
 using TwitterClone.Domain.Services;
 using TwitterClone.Domain.Services.Models;
@@ -9,9 +10,9 @@ public class EncryptionService : IEncryptionService
 {
     private readonly EncryptionModel _encryptionModel;
 
-    public EncryptionService(EncryptionModel encryptionModel)
+    public EncryptionService(IOptions<EncryptionModel> encryptionModel)
     {
-        _encryptionModel = encryptionModel;
+        _encryptionModel = encryptionModel.Value;
     }
 
     public string Encrypt(string encryptString)

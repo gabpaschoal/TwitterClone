@@ -1,3 +1,6 @@
 ﻿namespace TwitterClone.Domain.Services.Models;
 
-public record EncryptionModel(string Key);
+public class EncryptionModel
+{
+    public string Key { get; set; }
+}
