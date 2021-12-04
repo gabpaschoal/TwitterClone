@@ -1,11 +1,13 @@
 ﻿using FluentAssertions;
 using Moq;
+using System;
 using System.Linq;
 using TwitterClone.Application.Commands.User;
 using TwitterClone.Application.Handlers;
 using TwitterClone.Application.Handlers.User;
 using TwitterClone.Domain.Repositories.Data;
 using TwitterClone.Domain.Services;
+using TwitterClone.Domain.Services.Responses;
 using Xunit;
 
 namespace TwitterClone.Application.Test.Handlers.User;
@@ -32,8 +34,7 @@ public class UserLoginHandlerTests
         return user;
     }
 
-    private static UserLoginCommand MakeValidCommand()
-        => new(Email: "mail@valid.com", Password: "valid_password");
+    private static UserLoginCommand MakeValidCommand() => new(Email: "mail@valid.com", Password: "valid_password");
 
     [Fact(DisplayName = "Should be invalid when dont find the user")]
     public void Should_be_invalid_when_dont_find_the_user()
@@ -54,5 +55,37 @@ public class UserLoginHandlerTests
 
         resultData.IsValid.Should().BeFalse();
         resultData.FieldErrors.Single().Key.Should().Be(nameof(command.Password));
+    }
+
+    [Fact(DisplayName = "Should GetUserByEmailAndPassword be called with the email and the encrypted password and TokenGenerator with the user got")]
+    public void Should_GetUserByEmailAndPassword_be_called_with_the_email_and_the_encrypted_password_and_TokenGenerator_with_the_user_got()
+    {
+        UserLoginCommand command = MakeValidCommand();
+        string encryptedPassword = "encryptedPassword";
+        Mock<IEncryptionService> encryptionServiceMock = new();
+        encryptionServiceMock.Setup(x => x.Encrypt(It.IsAny<string>())).Returns(encryptedPassword);
+
+        TokenResponse tokenResponse = new() { ExpirationDate = DateTime.Now, Token = "validToken" };
+        Mock<ITokenService> tokenServiceMock = new();
+        tokenServiceMock.Setup(x => x.TokenGenerator(It.IsAny<Domain.Entities.User>())).Returns(tokenResponse);
+
+        Domain.Entities.User user = MakeUser();
+        Mock<IUserRepository> userRepositoryMock = new();
+        userRepositoryMock.Setup(x => x.GetUserByEmailAndPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(user);
+
+        UserLoginHandler sut = MakeSut(userRepository: userRepositoryMock.Object,
+                          encryptionService: encryptionServiceMock.Object,
+                          tokenService: tokenServiceMock.Object);
+
+        _ = sut.HandleExecution(command, cancellationToken: System.Threading.CancellationToken.None).Result;
+
+        userRepositoryMock.Verify(x => x.GetUserByEmailAndPassword(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        userRepositoryMock.Verify(x => x.GetUserByEmailAndPassword(
+                                                It.Is<string>(x => x.Equals(command.Email)),
+                                                It.Is<string>(x => x.Equals(encryptedPassword)))
+        );
+
+        tokenServiceMock.Verify(x => x.TokenGenerator(It.IsAny<Domain.Entities.User>()), Times.Once);
+        tokenServiceMock.Verify(x => x.TokenGenerator(It.Is<Domain.Entities.User>(x => x.Equals(user))));
     }
 }
