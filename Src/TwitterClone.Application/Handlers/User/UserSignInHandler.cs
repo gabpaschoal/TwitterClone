@@ -6,13 +6,13 @@ using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Handlers.User;
 
-public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<UserLoginResponse>>
+public class UserSignInHandler : HandlerBase<UserSignInCommand, CustomResultData<UserSignInResponse>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IEncryptionService _encryptionService;
     private readonly ITokenService _tokenService;
 
-    public UserLoginHandler(
+    public UserSignInHandler(
         IHandlerBus handlerBus,
         IUserRepository userRepository,
         IEncryptionService encryptionService,
@@ -23,7 +23,7 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
         _tokenService = tokenService;
     }
 
-    public override Task<CustomResultData<UserLoginResponse>> HandleExecution(UserLoginCommand request, CancellationToken cancellationToken)
+    public override Task<CustomResultData<UserSignInResponse>> HandleExecution(UserSignInCommand request, CancellationToken cancellationToken)
     {
         var encryptedPassword = _encryptionService.Encrypt(request.Password);
 
@@ -37,7 +37,7 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
 
         var tokenResponse = _tokenService.TokenGenerator(user);
 
-        UserLoginResponse loginResponse = new()
+        UserSignInResponse loginResponse = new()
         {
             Email = user.Email.Trim(),
             Name = user.Name.Trim(),
@@ -47,7 +47,7 @@ public class UserLoginHandler : HandlerBase<UserLoginCommand, CustomResultData<U
             ExpireAt = tokenResponse.ExpirationDate
         };
 
-        CustomResultData<UserLoginResponse> response = new(loginResponse);
+        CustomResultData<UserSignInResponse> response = new(loginResponse);
 
         return ValidResponse(response);
     }

@@ -1,6 +1,6 @@
 ﻿namespace TwitterClone.Application.Commands.User;
 
-public record UserCreateCommand(
+public record UserSignUpCommand(
         string Name,
         string NickName,
         string Email,

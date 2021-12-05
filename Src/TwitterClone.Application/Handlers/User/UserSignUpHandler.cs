@@ -5,12 +5,12 @@ using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Handlers.User;
 
-public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData<Guid>>
+public class UserSignUpHandler : HandlerBase<UserSignUpCommand, CustomResultData<Guid>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IEncryptionService _encryptionService;
 
-    public UserCreateHandler(
+    public UserSignUpHandler(
         IHandlerBus handlerBus,
         IUserRepository userRepository,
         IEncryptionService encryptionService) : base(handlerBus)
@@ -19,7 +19,7 @@ public class UserCreateHandler : HandlerBase<UserCreateCommand, CustomResultData
         _encryptionService = encryptionService;
     }
 
-    public override async Task<CustomResultData<Guid>> HandleExecution(UserCreateCommand request, CancellationToken cancellationToken)
+    public override async Task<CustomResultData<Guid>> HandleExecution(UserSignUpCommand request, CancellationToken cancellationToken)
     {
         if (_userRepository.ExistsUserWithThisNickName(nickName: request.NickName))
             AddError(nameof(request.NickName), ValidationMessage.AlreadyExistsAnUserWithThisNickName);

@@ -4,7 +4,7 @@ using TwitterClone.Application.Commands.User;
 
 namespace TwitterClone.Application.Validators.User;
 
-public class UserLoginValidator : Validation<UserLoginCommand>
+public class UserSignInValidator : Validation<UserSignInCommand>
 {
     public override void Validate()
     {

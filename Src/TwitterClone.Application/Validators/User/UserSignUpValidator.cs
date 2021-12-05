@@ -5,7 +5,7 @@ using TwitterClone.Resources;
 
 namespace TwitterClone.Application.Validators.User;
 
-public class UserCreateValidator : Validation<UserCreateCommand>
+public class UserSignUpValidator : Validation<UserSignUpCommand>
 {
     public override void Validate()
     {

@@ -8,7 +8,7 @@ namespace TwitterClone.Application.Test.Validators.User;
 
 public class UserCreateValidatorTests
 {
-    private static UserCreateValidator MakeSut(
+    private static UserSignUpValidator MakeSut(
         string name = "Gustav Jeremy",
         string nickName = "gustav123",
         string email = "gustav123@mail.com",
@@ -16,9 +16,9 @@ public class UserCreateValidatorTests
         string passwordConfirmation = "validPassword")
     {
 
-        UserCreateCommand user = new(name, nickName, email, password, passwordConfirmation);
+        UserSignUpCommand user = new(name, nickName, email, password, passwordConfirmation);
 
-        UserCreateValidator validator = new();
+        UserSignUpValidator validator = new();
 
         validator.SetValue(user);
         validator.Validate();

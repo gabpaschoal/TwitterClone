@@ -10,9 +10,9 @@ using Xunit;
 
 namespace TwitterClone.Application.Test.Handlers.User;
 
-public class UserCreateHandlerTests
+public class UserSignUpHandlerTests
 {
-    private static UserCreateHandler MakeSut(
+    private static UserSignUpHandler MakeSut(
         IHandlerBus? handlerBus = null,
         IUserRepository? userRepository = null,
         IEncryptionService? encryptionService = null)
@@ -21,10 +21,10 @@ public class UserCreateHandlerTests
         userRepository ??= new Mock<IUserRepository>().Object;
         encryptionService ??= new Mock<IEncryptionService>().Object;
 
-        return new UserCreateHandler(handlerBus, userRepository, encryptionService);
+        return new UserSignUpHandler(handlerBus, userRepository, encryptionService);
     }
 
-    private static UserCreateCommand MakeValidCommand()
+    private static UserSignUpCommand MakeValidCommand()
         => new(Name: "Gustav", NickName: "G986", Email: "gustav@mail.com", Password: "123", PasswordConfirmation: "123");
 
     [Fact(DisplayName = "Should be invalid when NickName is already in use")]

@@ -16,9 +16,9 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize, HttpPost, Route("")]
-    public async Task<IActionResult> Post(
-        [FromBody] UserCreateCommand command)
+    [Authorize, HttpPost, Route("SignUp")]
+    public async Task<IActionResult> SignUp(
+        [FromBody] UserSignUpCommand command)
     {
         var response = await _mediator.Send(command);
 
@@ -27,9 +27,9 @@ public class UserController : ControllerBase
         return BadRequest(response);
     }
 
-    [AllowAnonymous, HttpPost, Route("Login")]
-    public async Task<IActionResult> Login(
-        [FromBody] UserLoginCommand command)
+    [AllowAnonymous, HttpPost, Route("SignIn")]
+    public async Task<IActionResult> SignIn(
+        [FromBody] UserSignInCommand command)
     {
         var response = await _mediator.Send(command);
 

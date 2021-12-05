@@ -1,6 +1,6 @@
 ﻿namespace TwitterClone.Application.Responses.User;
 
-public class UserLoginResponse
+public class UserSignInResponse
 {
     public string Name { get; set; }
     public string NickName { get; set; }
